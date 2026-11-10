@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Modo oscuro: clase .dark en <html> (la pone un script según la preferencia guardada o la del sistema). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+}
+
+/* Sin comillas invertidas decorativas alrededor del código en línea */
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after {
+    content: none;
+}
+
+/* ---------- Bloques del contenido (iguales en el editor y en el blog) ---------- */
+.prose aside[data-callout] {
+    --c: var(--color-sky-500);
+    --bg: color-mix(in oklab, var(--c) 9%, transparent);
+    margin: 1.75em 0;
+    padding: 0.9em 1.2em;
+    border-left: 4px solid var(--c);
+    border-radius: 0.5rem;
+    background: var(--bg);
+}
+.prose aside[data-callout]::before {
+    display: block;
+    margin-bottom: 0.3em;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c);
+}
+.prose aside[data-callout] > :first-child { margin-top: 0; }
+.prose aside[data-callout] > :last-child { margin-bottom: 0; }
+.prose aside[data-callout='note']::before { content: 'ⓘ Nota'; }
+.prose aside[data-callout='tip'] { --c: var(--color-emerald-500); }
+.prose aside[data-callout='tip']::before { content: '✓ Consejo'; }
+.prose aside[data-callout='warning'] { --c: var(--color-amber-500); }
+.prose aside[data-callout='warning']::before { content: '! Cuidado'; }
+.prose aside[data-callout='danger'] { --c: var(--color-red-500); }
+.prose aside[data-callout='danger']::before { content: '✕ Peligro'; }
+
+.prose table { display: block; overflow-x: auto; }
+.prose th, .prose td { border: 1px solid var(--color-stone-200); padding: 0.5em 0.8em; }
+.dark .prose th, .dark .prose td { border-color: var(--color-stone-700); }
+.prose th { background: color-mix(in oklab, var(--color-stone-500) 10%, transparent); }
+.prose th p, .prose td p { margin: 0; }
+.tiptap .selectedCell { background: color-mix(in oklab, var(--color-amber-400) 20%, transparent); }
+
+.prose figure figcaption { text-align: center; }
+.prose pre code.hljs { padding: 0; background: transparent; }
+
+.prose .video-embed { position: relative; aspect-ratio: 16 / 9; margin: 2em 0; overflow: hidden; border-radius: 0.75rem; background: #000; }
+.prose .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.prose figure[data-chart] { position: relative; height: 22rem; margin: 2em 0; padding: 1rem; border: 1px solid var(--color-stone-200); border-radius: 0.75rem; }
+.dark .prose figure[data-chart] { border-color: var(--color-stone-800); }
+.prose pre[data-mermaid] { background: transparent; color: inherit; text-align: center; white-space: pre; }
+/* Ya dibujado: fuente normal para que Mermaid mida bien el texto de las etiquetas */
+.prose pre[data-mermaid].is-drawn,
+.tiptap [data-diagram-out] { font-family: var(--font-sans); font-size: 16px; line-height: 1.5; white-space: normal; }
+.prose pre[data-mermaid] svg, .tiptap [data-diagram-out] svg { max-width: 100%; height: auto; margin: 0 auto; }
