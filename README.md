@@ -92,6 +92,13 @@ ssh -L 8080:localhost:8080 usuario@IP_DEL_SERVIDOR
 
 Ahora entra en **http://localhost:8080** desde tu navegador. El blog público está en `http://IP_DEL_SERVIDOR`.
 
+### Admin accesible desde toda la LAN (sin túnel)
+
+En `.env` pon `ADMIN_BIND=0.0.0.0` y entra desde cualquier equipo de la red a `http://IP_DEL_SERVIDOR:ADMIN_PORT`.
+El admin rechaza (403) cualquier IP que no sea de red local, pero **no tiene login**: cualquiera conectado a tu
+red (incluida la wifi de invitados) puede editar. **No lo publiques** con un túnel (Cloudflare, ngrok) ni con un
+proxy: las peticiones llegarían desde una IP interna y el filtro no serviría.
+
 > Si estás trabajando en el propio servidor (o en tu PC en local), entra directo a http://localhost:8080.
 
 ## Datos de prueba
